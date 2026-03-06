@@ -27,34 +27,33 @@ const Hero = () => {
                 background: '#000',
             }}
         >
-            {/* Massive Background Typography - Centered and responsive */}
+            {/* Massive Background Typography - Right-justified as requested */}
             <Box
                 sx={{
                     position: 'absolute',
-                    top: '15%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
+                    top: '12%',
+                    right: '5%', // Added slight offset from edge
+                    width: 'auto',
                     pointerEvents: 'none',
                     zIndex: 0,
-                    width: '100%',
                     display: 'flex',
-                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'flex-end', // Right align items
                 }}
             >
-                <motion.div
-                    style={{ y: y1 }}
-                >
+                <motion.div style={{ y: y1 }}>
                     <Typography
                         sx={{
-                            fontSize: 'clamp(5rem, 25vw, 22rem)',
+                            fontSize: 'clamp(7rem, 22vw, 22rem)',
                             fontWeight: 900,
                             color: 'rgba(255, 255, 255, 0.03)',
-                            whiteSpace: 'nowrap',
-                            lineHeight: 0.8,
-                            textAlign: 'center',
+                            lineHeight: 0.85,
+                            textAlign: 'right', // Right justify text
+                            textTransform: 'uppercase',
+                            letterSpacing: '-0.02em'
                         }}
                     >
-                        DEVELOPER
+                        DEV<br />ELOPER
                     </Typography>
                 </motion.div>
             </Box>
@@ -75,7 +74,7 @@ const Hero = () => {
                                 textTransform: 'uppercase'
                             }}
                         >
-                            Independent Software Engineer // 2.5+ Years
+                            Software Engineer // 2.5+ Years
                         </Typography>
 
                         <Box sx={{ mb: 6, display: 'flex', flexWrap: 'wrap', gap: { xs: 2, md: 4 } }}>
@@ -119,8 +118,7 @@ const Hero = () => {
                                 fontFamily: "'Inter', sans-serif"
                             }}
                         >
-                            Crafting high-performance backends and real-time data architectures
-                            with a focus on architectural excellence.
+                            Building robust backend ecosystems through advanced system design and strategic database performance tuning.
                         </Typography>
 
                         <Stack
