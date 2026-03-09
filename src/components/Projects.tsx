@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SectionHeading from './SectionHeading';
-import { Section, SectionInner } from './common/Section';
+import { Section, SectionInner, useScrollContainer } from './common/Section';
 
 const ImageContainer = styled(motion.div)({
     width: '100%',
@@ -23,8 +23,8 @@ const ProjectImage = styled(motion.img)({
     width: '100%',
     height: '140%', // Excess height for parallax
     objectFit: 'cover',
-    position: 'absolute',
-    top: '-10%', // Offset to center the excess
+    // position: 'absolute',
+    // top: '0%', // Offset to center the excess
     filter: 'grayscale(0.5)',
     transition: 'filter 0.5s ease',
     '&:hover': {
@@ -33,12 +33,13 @@ const ProjectImage = styled(motion.img)({
 });
 
 const Projects = () => {
+    const containerRef = useScrollContainer();
     const projects = [
         {
             title: "Partner Inventory Management",
             role: "Real-time Architecture @ Lenovo India",
             description: "Centralized real-time validation for 10k+ serials across 200+ partners, slashing manual reconciliation by ~70% with <15s latency.",
-            image: "/src/assets/projects/inventory_management_dashboard_1773048881187.png",
+            image: "/assets/projects/inventory_management_dashboard_1773048881187.png",
             tags: ["SQL SERVER", "ASP.NET", "REACT", "C#"],
             specs: { label: "Outcome", value: "~80% Accuracy Increase" }
         },
@@ -46,7 +47,7 @@ const Projects = () => {
             title: "CDMS Platform",
             role: "Data Workflows @ Lenovo India",
             description: "Modernized data workflows for 10k+ devices across 5+ lifecycle stages, boosting throughput by ~60% and ensuring global data integrity.",
-            image: "/src/assets/projects/data_workflow_platform_1773048901041.png",
+            image: "/assets/projects/data_workflow_platform_1773048901041.png",
             tags: ["SQL SERVER", "ASP.NET", "SSIS"],
             specs: { label: "Impact", value: "~60% Throughput Gain" }
         },
@@ -54,7 +55,7 @@ const Projects = () => {
             title: "IoT Cold-Chain Monitoring",
             role: "Microservices @ UrjaLinks",
             description: "Scaled microservices for 100+ IoT devices, preventing temperature excursions by ~85% through ML-driven predictive monitoring.",
-            image: "/src/assets/projects/iot_coldchain_monitor_1773048948862.png",
+            image: "/assets/projects/iot_coldchain_monitor_1773048948862.png",
             tags: ["SPRING BOOT", "KAFKA", "MQTT", "AWS", "INFLUXDB", "POSTGRESQL"],
             specs: { label: "Alerting", value: "~85% Excursion Reduction" }
         }
@@ -72,10 +73,10 @@ const Projects = () => {
                         const targetRef = useRef(null);
                         const { scrollYProgress } = useScroll({
                             target: targetRef,
+                            container: containerRef || undefined,
                             offset: ["start end", "end start"]
                         });
-                        const y = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-                        const textY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+                        const y = useTransform(scrollYProgress, [0, 1], [-80, 80]);
 
                         return (
                             <Box
@@ -86,7 +87,7 @@ const Projects = () => {
                                     gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' },
                                     gap: { xs: 4, lg: 10 },
                                     alignItems: 'center',
-                                    minHeight: '70vh'
+                                    minHeight: '65vh',
                                 }}
                             >
                                 <ImageContainer>
@@ -104,10 +105,9 @@ const Projects = () => {
                                     position: 'relative',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    height: '100%'
+                                    overflow: 'hidden'
                                 }}>
-                                    <motion.div style={{ y: textY }}>
+                                    <motion.div>
                                         <Typography variant="overline" sx={{ color: '#20B2AA', mb: 1, display: 'block', letterSpacing: '0.2em', fontFamily: "'JetBrains Mono', monospace" }}>
                                             {project.role}
                                         </Typography>
