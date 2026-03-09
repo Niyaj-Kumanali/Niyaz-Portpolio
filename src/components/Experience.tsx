@@ -1,40 +1,33 @@
-import { Box, Container, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
+import SectionHeading from './SectionHeading';
+import { Section, SectionInner } from './common/Section';
 
 const experienceData = [
     {
         role: "Software Engineer",
         company: "Talentpace Pvt Ltd",
-        period: "2023 – NOW",
+        period: "NOV 2023 – PRESENT",
         highlights: [
-            "Partner inventory tracking for Lenovo (80% accuracy increase).",
-            "Pipeline optimization for 10k+ serial tracking (60% speed gain).",
-            "IoT cold-chain monitoring system (30% efficiency increase)."
+            "Reduced inventory discrepancies by ~80% for Lenovo India by deploying automated partner serial-level validation workflows.",
+            "Optimized CDMS data pipelines for 10k+ devices, increasing processing throughput by ~60% across the global sales lifecycle.",
+            "Architected a real-time IoT cold-chain monitoring ecosystem, integrating ML-driven alerts to boost operational efficiency by ~30%."
         ]
     }
 ];
 
 const Experience = () => {
     return (
-        <Box component="section" id="experience" sx={{ py: 30, background: '#000' }}>
-            <Container maxWidth="xl">
-                <Box sx={{ mb: 20 }}>
-                    <Typography
-                        variant="h2"
-                        sx={{
-                            fontSize: { xs: '12vw', md: '10vw' },
-                            textAlign: 'right',
-                        }}
-                    >
-                        JOURNEY.
-                    </Typography>
+        <Section id="experience">
+            <SectionInner>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+                    <SectionHeading title="JOURNEY." />
                 </Box>
 
-                <Box sx={{ borderTop: '2px solid #fff' }}>
+                <Box>
                     {experienceData.map((exp, index) => (
                         <Box
                             key={index}
                             sx={{
-                                py: 10,
                                 display: 'grid',
                                 gridTemplateColumns: { xs: '1fr', md: '1fr 2fr' },
                                 gap: 6
@@ -51,10 +44,10 @@ const Experience = () => {
                             </Typography>
 
                             <Box>
-                                <Typography variant="h2" sx={{ fontSize: '4rem', mb: 2 }}>
+                                <Typography variant="h2" sx={{ fontSize: '3rem', mb: 2 }}>
                                     {exp.company}
                                 </Typography>
-                                <Typography variant="h4" sx={{ mb: 6, color: 'text.secondary' }}>
+                                <Typography variant="h2" sx={{ fontSize: '1.5rem', mb: 6, color: 'text.secondary' }}>
                                     {exp.role}
                                 </Typography>
 
@@ -64,7 +57,7 @@ const Experience = () => {
                                             key={i}
                                             variant="body1"
                                             sx={{
-                                                fontSize: '1.5rem',
+                                                fontSize: '1.2rem',
                                                 lineHeight: 1.4,
                                                 borderLeft: '4px solid #fff',
                                                 pl: 4
@@ -78,8 +71,8 @@ const Experience = () => {
                         </Box>
                     ))}
                 </Box>
-            </Container>
-        </Box>
+            </SectionInner>
+        </Section>
     );
 };
 

@@ -1,26 +1,43 @@
-import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
+import Education from './components/Education';
+import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
-import ScrollProgress from './components/ScrollProgress';
+import ViewportContainer from './components/ViewportContainer';
 import { Box } from '@mui/material';
+
+const SECTION_NAMES = [
+  'Home',
+  'Skills',
+  'Experience',
+  'Projects',
+  'Education',
+  'Certifications',
+  'Contact',
+  'Footer'
+];
 
 function App() {
   return (
-    <Box>
+    <Box sx={{ bgcolor: '#000', color: '#fff', minHeight: '100vh', overflow: 'hidden' }}>
       <CustomCursor />
-      <ScrollProgress />
-      <Navbar />
-      <Hero />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-      <Footer />
+
+      {/* Viewport sections */}
+      <ViewportContainer sectionNames={SECTION_NAMES}>
+        <Hero />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Education />
+        <Certifications />
+        <Contact />
+        <Footer />
+      </ViewportContainer>
+
       {/* Dynamic Background Noise/Texture Overlay */}
       <Box sx={{
         position: 'fixed',

@@ -33,10 +33,10 @@ const CustomCursor = () => {
                 }}
                 sx={{
                     position: 'fixed',
-                    top: -10,
-                    left: -10,
-                    width: 20,
-                    height: 20,
+                    top: -50,
+                    left: -50,
+                    width: 100,
+                    height: 100,
                     borderRadius: '50%',
                     bgcolor: 'primary.main',
                     pointerEvents: 'none',

@@ -54,6 +54,10 @@ const Navbar = () => {
         return () => unsubscribe();
     }, [scrollY]);
 
+    const triggerNav = (index: number) => {
+        window.dispatchEvent(new CustomEvent('navigateToSection', { detail: { index } }));
+    };
+
     return (
         <NavContainer
             style={{
@@ -67,22 +71,25 @@ const Navbar = () => {
                     <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 0 } }}>
                         <Typography
                             variant="h5"
-                            component="a"
-                            href="#"
+                            component="button"
+                            onClick={() => triggerNav(0)}
                             sx={{
                                 fontWeight: 900,
                                 fontSize: '1.5rem',
-                                textDecoration: 'none',
                                 color: '#fff',
                                 fontFamily: "'Inter', sans-serif",
-                                letterSpacing: '-0.05em'
+                                letterSpacing: '-0.05em',
+                                background: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                padding: 0,
                             }}
                         >
                             NIYAZ.
                         </Typography>
 
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <NavButton href="#contact">
+                            <NavButton as="button" onClick={() => triggerNav(5)}>
                                 Get in touch
                             </NavButton>
                         </motion.div>

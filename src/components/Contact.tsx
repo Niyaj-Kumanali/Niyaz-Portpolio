@@ -1,16 +1,19 @@
 import { motion } from 'framer-motion';
 import {
     Box,
-    Container,
     Typography,
     TextField,
     Button,
     Stack,
-    alpha
+    alpha,
+    Snackbar,
+    Alert
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ArrowUpRight, Github, Linkedin, Twitter } from 'lucide-react';
-import Magnetic from './Magnetic';
+import { Github, Linkedin, Mail, MapIcon, Pin, Send } from 'lucide-react';
+import SectionHeading from './SectionHeading';
+import { useState } from 'react';
+import { Section, SectionInner } from './common/Section';
 
 const BrutalistInput = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -58,33 +61,52 @@ const SocialButton = styled(motion.a)(({ theme }) => ({
 }));
 
 const Contact = () => {
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [open, setOpen] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        const form = e.currentTarget;
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch("https://formspree.io/f/mqakvvoj", {
+                method: "POST",
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                form.reset();
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            setStatus('error');
+        } finally {
+            setOpen(true);
+        }
+    };
+
     return (
-        <Box component="section" id="contact" sx={{ py: 30, background: '#000' }}>
-            <Container maxWidth="xl">
-                <Box sx={{ mb: 20 }}>
-                    <Typography
-                        variant="h2"
-                        sx={{
-                            fontSize: { xs: '15vw', md: '12vw' },
-                            lineHeight: 0.8,
-                            fontWeight: 900,
-                            fontFamily: "'Inter', sans-serif",
-                            color: '#fff'
-                        }}
-                    >
-                        LET'S <br />
-                        TALK.
-                    </Typography>
+        <Section id="contact">
+            <SectionInner>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+                    <SectionHeading title="GET IN TOUCH." />
                 </Box>
 
-                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 15 }}>
+                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: { xs: 8, lg: 15 } }}>
                     <Box>
                         <Typography variant="h4" sx={{ mb: 6, fontWeight: 300, color: 'rgba(255, 255, 255, 0.6)', fontFamily: "'Inter', sans-serif" }}>
-                            Have a project in mind? Or just want to discuss the future of backend architecture?
-                            My inbox is always open for bold ideas.
+                            Ready to build something scalable? Let's discuss your ecosystem's architecture.
                         </Typography>
 
-                        <Stack direction="row" spacing={0} sx={{ width: '100%', mb: 10 }}>
+                        <Stack direction="row" spacing={0} sx={{ width: '100%', mb: 5 }}>
                             <SocialButton href="https://github.com/niyaj-kumanali" target="_blank" whileHover={{ scale: 0.98 }}>
                                 <Github size={32} />
                                 <Typography variant="caption" sx={{ fontFamily: "'JetBrains Mono', monospace" }}>GITHUB</Typography>
@@ -93,34 +115,31 @@ const Contact = () => {
                                 <Linkedin size={32} />
                                 <Typography variant="caption" sx={{ fontFamily: "'JetBrains Mono', monospace" }}>LINKEDIN</Typography>
                             </SocialButton>
-                            <SocialButton href="#" whileHover={{ scale: 0.98 }}>
-                                <Twitter size={32} />
-                                <Typography variant="caption" sx={{ fontFamily: "'JetBrains Mono', monospace" }}>TWITTER</Typography>
+                            <SocialButton href="mailto:niyajkumanali@gmail.com" whileHover={{ scale: 0.98 }}>
+                                <Mail size={32} />
+                                <Typography variant="caption" sx={{ fontFamily: "'JetBrains Mono', monospace" }}>EMAIL</Typography>
+                            </SocialButton>
+                            <SocialButton href="https://www.google.com/maps/search/?api=1&query=Bengaluru,+India" target="_blank" whileHover={{ scale: 0.98 }}>
+                                <MapIcon size={32} />
+                                <Typography variant="caption" sx={{ fontFamily: "'JetBrains Mono', monospace" }}>LOCATION</Typography>
                             </SocialButton>
                         </Stack>
-
-                        <Box>
-                            <Typography variant="overline" sx={{ color: '#20B2AA', display: 'block', mb: 2, letterSpacing: '0.2em', fontFamily: "'JetBrains Mono', monospace" }}>
-                                Direct Contact
-                            </Typography>
-                            <Typography variant="h3" sx={{ fontWeight: 900, fontSize: { xs: '1.5rem', md: '2.5rem' }, color: '#fff' }}>
-                                niyajkumanali@gmail.com
-                            </Typography>
-                        </Box>
                     </Box>
 
                     <Box>
-                        <Stack spacing={4}>
-                            <BrutalistInput fullWidth label="NAME" variant="outlined" />
-                            <BrutalistInput fullWidth label="EMAIL" variant="outlined" />
-                            <BrutalistInput fullWidth label="SUBJECT" variant="outlined" />
-                            <BrutalistInput fullWidth label="MESSAGE" multiline rows={6} variant="outlined" />
+                        <form onSubmit={handleSubmit}>
+                            <Stack spacing={4}>
+                                <BrutalistInput name="name" required fullWidth label="NAME" variant="outlined" />
+                                <BrutalistInput name="email" required type="email" fullWidth label="EMAIL" variant="outlined" />
+                                <BrutalistInput name="subject" required fullWidth label="SUBJECT" variant="outlined" />
+                                <BrutalistInput name="message" required fullWidth label="MESSAGE" multiline rows={6} variant="outlined" />
 
-                            <Magnetic amount={0.1}>
                                 <Button
                                     fullWidth
+                                    type="submit"
+                                    disabled={status === 'loading'}
                                     variant="contained"
-                                    endIcon={<ArrowUpRight />}
+                                    endIcon={status === 'loading' ? null : <Send />}
                                     sx={{
                                         py: 3,
                                         fontSize: '1.5rem',
@@ -130,17 +149,27 @@ const Contact = () => {
                                         borderRadius: 0,
                                         '&:hover': {
                                             backgroundColor: alpha('#fff', 0.9),
+                                        },
+                                        '&.Mui-disabled': {
+                                            backgroundColor: 'rgba(255,255,255,0.3)',
+                                            color: 'rgba(0,0,0,0.5)'
                                         }
                                     }}
                                 >
-                                    SEND MESSAGE
+                                    {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
                                 </Button>
-                            </Magnetic>
-                        </Stack>
+                            </Stack>
+                        </form>
                     </Box>
                 </Box>
-            </Container>
-        </Box>
+            </SectionInner>
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+                <Alert onClose={() => setOpen(false)} severity={status === 'success' ? 'success' : 'error'} sx={{ width: '100%', borderRadius: 0, fontFamily: "'JetBrains Mono', monospace" }}>
+                    {status === 'success' ? 'Message sent successfully! I will get back to you soon.' : 'Something went wrong. Please try again later.'}
+                </Alert>
+            </Snackbar>
+        </Section>
     );
 };
 
