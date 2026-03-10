@@ -1,4 +1,4 @@
 # Niyaz Kumanali | Full Stack Portfolio
 
-**Live Demo:** [https://niyaz-portpolio.vercel.app/](https://niyaz-portpolio.vercel.app/)
+**Live Demo:** [https://niyaz-portfolio.vercel.app/](https://niyaz-portfolio.vercel.app/)
 
